@@ -14,12 +14,20 @@ namespace Materialize.General
 {
     public class TextureManager : MonoBehaviour
     {
-        // ReSharper disable once MemberCanBePrivate.Global
-        public const TextureFormat DefaultHdrTextureFormat = TextureFormat.RGBAHalf;
+        #region ConstValues
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        public const TextureFormat DefaultLdrTextureFormat = TextureFormat.RGBA32;
+        private const TextureFormat DefaultHighPrecisionTextureFormat = TextureFormat.RGBAHalf;
+        private const RenderTextureFormat DefaultHighPrecisionRenderTextureFormat = RenderTextureFormat.ARGBHalf;
+        private const RenderTextureFormat DefaultHighPrecisionMonoRenderTextureFormat = RenderTextureFormat.RHalf;
+        private const TextureFormat DefaultLowPrecisionTextureFormat = TextureFormat.RGBA32;
+        private const RenderTextureFormat DefaultLowPrecisionRenderTextureFormat = RenderTextureFormat.ARGB32;
+        private const RenderTextureFormat DefaultLowPrecisionMonoRenderTextureFormat = RenderTextureFormat.R8;
+
+        #endregion
+
         public static TextureManager Instance;
+
+        #region ShaderIds
 
         private static readonly int DiffuseMapId = Shader.PropertyToID("_BaseColorMap");
         private static readonly int NormalMapId = Shader.PropertyToID("_NormalMap");
@@ -31,6 +39,8 @@ namespace Materialize.General
         private static readonly int DisplacementOffset = Shader.PropertyToID("_DisplacementOffset");
         private static readonly int FlipNormalYId = Shader.PropertyToID("_FlipNormalY");
 
+        #endregion
+
         private Texture2D _blackTexture;
         private bool _displacementInitialized;
 
@@ -38,14 +48,28 @@ namespace Materialize.General
         private Texture2D _packedNormal;
 
         [Range(0, 10)] public float DefaultDisplacement = 3.0f;
-        public TextureFormat DefaultTextureFormat;
         public float DisplacementConstant = 0.25f;
 
         // ReSharper disable once RedundantDefaultMemberInitializer
         [UsedImplicitly] [SerializeField] private Material FullMaterial = null;
-        public bool Hdr;
+
+        // ReSharper disable once InconsistentNaming
+
+        public bool HighPrecision;
+
         public ComputeShader MaskMapCompute;
-        public RenderTextureFormat RenderTextureFormat;
+
+        private RenderTextureFormat RenderTextureFormat => HighPrecision
+            ? DefaultHighPrecisionRenderTextureFormat
+            : DefaultLowPrecisionRenderTextureFormat;
+
+        private RenderTextureFormat MonoRenderTextureFormat => HighPrecision
+            ? DefaultHighPrecisionMonoRenderTextureFormat
+            : DefaultLowPrecisionMonoRenderTextureFormat;
+
+        public TextureFormat DefaultTextureFormat => HighPrecision
+            ? DefaultHighPrecisionTextureFormat
+            : DefaultLowPrecisionTextureFormat;
 
         [HideInInspector] public ProgramEnums.MapType TextureInClipboard;
         public ComputeShader TextureProcessingCompute;
@@ -56,6 +80,7 @@ namespace Materialize.General
             {
                 Shader.SetGlobalInt(FlipNormalYId, value ? 1 : 0);
                 _flipNormalY = value;
+                ProgramManager.Instance.ProgramSettings.FlipNormal = value;
             }
             get => _flipNormalY;
         }
@@ -79,9 +104,6 @@ namespace Materialize.General
 
             _blackTexture = GetStandardTexture(1, 1);
             _blackTexture.SetPixel(0, 0, Color.black);
-
-            RenderTextureFormat = Hdr ? RenderTextureFormat.DefaultHDR : RenderTextureFormat.Default;
-            DefaultTextureFormat = Hdr ? DefaultHdrTextureFormat : DefaultLdrTextureFormat;
         }
 
         private void Start()
@@ -264,24 +286,7 @@ namespace Materialize.General
 
         public Texture2D GetStandardTexture(int width, int height, bool linear = true)
         {
-            return Hdr ? GetStandardHdrTexture(width, height, linear) : GetStandardLdrTexture(width, height, linear);
-        }
-
-        private static Texture2D GetStandardHdrTexture(int width, int height, bool linear = true)
-        {
-            var texture = new Texture2D(width, height, DefaultHdrTextureFormat, true, linear)
-            {
-                hideFlags = HideFlags.HideAndDontSave,
-                filterMode = FilterMode.Point,
-                wrapMode = TextureWrapMode.Repeat
-            };
-            return texture;
-        }
-
-
-        private static Texture2D GetStandardLdrTexture(int width, int height, bool linear = true)
-        {
-            var texture = new Texture2D(width, height, DefaultLdrTextureFormat, true, linear)
+            var texture = new Texture2D(width, height, DefaultTextureFormat, true, linear)
             {
                 hideFlags = HideFlags.HideAndDontSave,
                 filterMode = FilterMode.Point,
@@ -292,7 +297,7 @@ namespace Materialize.General
 
         public RenderTexture GetTempRenderTexture(int width, int height, bool forceGama = false, bool mono = false)
         {
-            var format = mono ? RenderTextureFormat.RFloat : RenderTextureFormat;
+            var format = mono ? MonoRenderTextureFormat : RenderTextureFormat;
 
             var rt = forceGama
                 ? RenderTexture.GetTemporary(width, height, 24, format, RenderTextureReadWrite.sRGB)

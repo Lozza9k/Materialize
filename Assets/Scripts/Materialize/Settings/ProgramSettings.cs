@@ -10,10 +10,9 @@ namespace Materialize.Settings
     {
         public ProgramEnums.FileFormat FileFormat;
         public int FrameRate;
-        public bool HDR;
+        public bool HighPrecision;
         public bool HideUiOnRotate;
-        public bool NormalMapMaxStyle;
-        public bool NormalMapMayaStyle;
+        public bool FlipNormal;
 
         public bool PostProcessEnabled;
         public ProgramEnums.PropChannelMap PropBlue;

@@ -125,7 +125,6 @@ namespace Materialize.General
                 }
 
                 ObjectHandler.AllowHide = ProgramSettings.HideUiOnRotate;
-                TextureManager.Instance.Hdr = ProgramSettings.HDR;
 
                 yield return new WaitForSeconds(0.5f);
             }
@@ -198,14 +197,13 @@ namespace Materialize.General
             {
                 HideUiOnRotate = ObjectHandler.AllowHide,
                 FrameRate = DefaultFrameRate,
-                HDR = TextureManager.Instance.Hdr,
-                NormalMapMaxStyle = true,
-                NormalMapMayaStyle = false,
+                FlipNormal = false,
                 PostProcessEnabled = true,
                 PropRed = ProgramEnums.PropChannelMap.None,
                 PropGreen = ProgramEnums.PropChannelMap.None,
                 PropBlue = ProgramEnums.PropChannelMap.None,
-                FileFormat = ProgramEnums.FileFormat.Png
+                FileFormat = ProgramEnums.FileFormat.Png,
+                HighPrecision = false
             };
             PrefsManager.ProgramSettings = ProgramSettings;
             PrefsManager.Save();
@@ -213,7 +211,7 @@ namespace Materialize.General
 
         public void SetSettings()
         {
-            TextureManager.Instance.FlipNormalY = ProgramSettings.NormalMapMayaStyle;
+            TextureManager.Instance.FlipNormalY = ProgramSettings.FlipNormal;
 
             if (ProgramSettings.PostProcessEnabled)
                 PostProcessGui.PostProcessOn();
@@ -226,6 +224,7 @@ namespace Materialize.General
             mainGui.PropBlue = ProgramSettings.PropBlue;
 
             mainGui.SetFormat(ProgramSettings.FileFormat);
+            TextureManager.Instance.HighPrecision = ProgramSettings.HighPrecision;
         }
 
         public void SaveSettings()
@@ -261,7 +260,7 @@ namespace Materialize.General
             new ExtensionFilter("Image Files", LoadFormats)
         };
 
-        public static readonly string[] SaveFormats =
+        private static readonly string[] SaveFormats =
         {
             "png", "jpg", "jpeg", "tga", "exr"
         };

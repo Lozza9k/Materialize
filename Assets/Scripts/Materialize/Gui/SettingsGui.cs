@@ -38,21 +38,14 @@ namespace Materialize.Gui
 
             offsetY += 30;
 
-            GUI.Label(new Rect(offsetX, offsetY, 250, 30), "Normal Map Style");
+            TextureManager.Instance.FlipNormalY =
+                GUI.Toggle(new Rect(offsetX, offsetY, 100, 30), TextureManager.Instance.FlipNormalY, " Flip Normal Y");
 
-            offsetY += 20;
+            offsetY += 30;
 
-            programSettings.NormalMapMaxStyle =
-                GUI.Toggle(new Rect(offsetX, offsetY, 100, 30), programSettings.NormalMapMaxStyle, " Max Style");
-            programSettings.NormalMapMayaStyle = !programSettings.NormalMapMaxStyle;
-
-
-            programSettings.NormalMapMayaStyle = GUI.Toggle(new Rect(offsetX + 100, offsetY, 100, 30),
-                programSettings.NormalMapMayaStyle,
-                " Maya Style");
-            programSettings.NormalMapMaxStyle = !programSettings.NormalMapMayaStyle;
-
-            TextureManager.Instance.FlipNormalY = programSettings.NormalMapMayaStyle;
+            TextureManager.Instance.HighPrecision =
+                GUI.Toggle(new Rect(offsetX, offsetY, 250, 30), TextureManager.Instance.HighPrecision,
+                    " High Precision Textures");
 
             offsetY += 30;
 

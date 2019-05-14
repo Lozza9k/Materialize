@@ -7,7 +7,6 @@ namespace Materialize.General
             Png,
             Jpg,
             Tga,
-            Exr,
             Bmp,
             Invalid
         }
