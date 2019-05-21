@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Materialize.General;
 using TMPro;
 using UnityEngine;
@@ -21,60 +22,6 @@ namespace Materialize.Gui
 {
     public class MainGui : MonoBehaviour, IHideGuiManager
     {
-        public void SaveImage(ProgramEnums.MapType mapType)
-        {
-            switch (mapType)
-            {
-                case ProgramEnums.MapType.Height:
-                    break;
-                case ProgramEnums.MapType.Diffuse:
-                    break;
-                case ProgramEnums.MapType.DiffuseOriginal:
-                    break;
-                case ProgramEnums.MapType.Metallic:
-                    break;
-                case ProgramEnums.MapType.Smoothness:
-                    break;
-                case ProgramEnums.MapType.Normal:
-                    break;
-                case ProgramEnums.MapType.Ao:
-                    break;
-                case ProgramEnums.MapType.Property:
-                    break;
-                case ProgramEnums.MapType.MaskMap:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mapType), mapType, null);
-            }
-        }
-
-        public void LoadImage(ProgramEnums.MapType mapType)
-        {
-            switch (mapType)
-            {
-                case ProgramEnums.MapType.Height:
-                    break;
-                case ProgramEnums.MapType.Diffuse:
-                    break;
-                case ProgramEnums.MapType.DiffuseOriginal:
-                    break;
-                case ProgramEnums.MapType.Metallic:
-                    break;
-                case ProgramEnums.MapType.Smoothness:
-                    break;
-                case ProgramEnums.MapType.Normal:
-                    break;
-                case ProgramEnums.MapType.Ao:
-                    break;
-                case ProgramEnums.MapType.Property:
-                    break;
-                case ProgramEnums.MapType.MaskMap:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(mapType), mapType, null);
-            }
-        }
-
         public void CreateImage(ProgramEnums.MapType mapType, Button button)
         {
             switch (mapType)
@@ -250,7 +197,6 @@ namespace Materialize.Gui
         private ProgramEnums.MapType _activeMapType;
         private bool _busySaving;
         private bool _clearTextures;
-        private bool _exrSelected;
         private bool _jpgSelected;
         private List<IHideable> _objectsToUnhide;
 
@@ -383,9 +329,6 @@ namespace Materialize.Gui
             _tgaSelected = GUI.Toggle(new Rect(offsetXm + 30, offsetY + 100, 80, 20), _tgaSelected, "TGA");
             if (_tgaSelected) SetFormat(ProgramEnums.FileFormat.Tga);
 
-            _exrSelected = GUI.Toggle(new Rect(offsetXm + 30, offsetY + 120, 80, 20), _exrSelected, "EXR");
-            if (_exrSelected) SetFormat(ProgramEnums.FileFormat.Exr);
-
             // Flip Normal Map Y
             GUI.enabled = TextureManager.Instance.NotNull(ProgramEnums.MapType.Normal);
 
@@ -516,11 +459,13 @@ namespace Materialize.Gui
             GUI.enabled = true;
         }
 
+        [UsedImplicitly]
         public void ToggleSaveOptions()
         {
             _canDrawSaveOptions = !_canDrawSaveOptions;
         }
 
+        [UsedImplicitly]
         public void AdjustAlignment()
         {
             CloseWindows();
@@ -528,6 +473,7 @@ namespace Materialize.Gui
             AlignmentGuiScript.Initialize();
         }
 
+        [UsedImplicitly]
         public void OpenTileMaps()
         {
             CloseWindows();
@@ -536,6 +482,7 @@ namespace Materialize.Gui
             _tilingTextureMakerGuiScript.Initialize();
         }
 
+        [UsedImplicitly]
         public void NextCubeMap()
         {
             _selectedCubemap += 1;
@@ -544,14 +491,15 @@ namespace Materialize.Gui
             HdriSky.hdriSky.value = CubeMaps[_selectedCubemap];
         }
 
+        [UsedImplicitly]
         public void Quit()
         {
             Application.Quit();
         }
 
+        [UsedImplicitly]
         public void Fullscreen()
         {
-            //Problema com a versao
             string text;
             if (Screen.fullScreenMode == FullScreenMode.Windowed)
             {
@@ -566,8 +514,8 @@ namespace Materialize.Gui
 
             FullScreenTextObject.text = text;
         }
-
-
+        
+        [UsedImplicitly]
         public void HideGuiButtonClickEvent()
         {
             string text;
@@ -729,7 +677,6 @@ namespace Materialize.Gui
             _jpgSelected = false;
             _pngSelected = false;
             _tgaSelected = false;
-            _exrSelected = false;
 
             switch (newFormat)
             {
@@ -741,9 +688,6 @@ namespace Materialize.Gui
                     break;
                 case ProgramEnums.FileFormat.Tga:
                     _tgaSelected = true;
-                    break;
-                case ProgramEnums.FileFormat.Exr:
-                    _exrSelected = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newFormat), newFormat, null);
@@ -757,8 +701,6 @@ namespace Materialize.Gui
             _jpgSelected = false;
             _pngSelected = false;
             _tgaSelected = false;
-            _exrSelected = false;
-
             switch (newFormat)
             {
                 case "jpg":
@@ -772,10 +714,6 @@ namespace Materialize.Gui
                 case "tga":
                     _tgaSelected = true;
                     SelectedFormat = ProgramEnums.FileFormat.Tga;
-                    break;
-                case "exr":
-                    _exrSelected = true;
-                    SelectedFormat = ProgramEnums.FileFormat.Exr;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newFormat), newFormat, null);
@@ -872,7 +810,7 @@ namespace Materialize.Gui
         public bool IsGuiHidden
         {
             get => _isGuiHidden;
-            set
+            private set
             {
                 if (HideGuiLocker.IsLocked)
                 {

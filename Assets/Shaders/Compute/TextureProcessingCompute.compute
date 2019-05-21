@@ -2,6 +2,7 @@
 
 #pragma kernel CSPackNormal
 #pragma kernel ConvertToGama
+#pragma kernel ConvertToLinear
 #pragma kernel FlipNormalY
 
 RWTexture2D<float4> Result;
@@ -33,6 +34,18 @@ void ConvertToGama (uint3 id : SV_DispatchThreadID)
     float4 col = ImageInput.SampleLevel(LinearRepeatSample, uv, 0);
 
     Result[id.xy] = LinearToSRGB(col);
+}
+
+[numthreads(8,8,1)]
+void ConvertToLinear (uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= uint(_ImageSize.x) || id.y >= uint(_ImageSize.y))
+        return;
+
+    float2 uv = id.xy / _ImageSize;
+    float4 col = ImageInput.SampleLevel(LinearRepeatSample, uv, 0);
+
+    Result[id.xy] = SRGBToLinear(col);
 }
 
 [numthreads(8,8,1)]

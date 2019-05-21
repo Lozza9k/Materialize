@@ -16,12 +16,12 @@ namespace Materialize.General
     {
         #region ConstValues
 
-        private const TextureFormat DefaultHighPrecisionTextureFormat = TextureFormat.RGBAHalf;
-        private const RenderTextureFormat DefaultHighPrecisionRenderTextureFormat = RenderTextureFormat.ARGBHalf;
-        private const RenderTextureFormat DefaultHighPrecisionMonoRenderTextureFormat = RenderTextureFormat.RHalf;
+        private const TextureFormat DefaultHighPrecisionTextureFormat = TextureFormat.RGBAFloat;
+        private const RenderTextureFormat DefaultHighPrecisionRenderTextureFormat = RenderTextureFormat.ARGBFloat;
+        private const RenderTextureFormat DefaultHighPrecisionMonoRenderTextureFormat = RenderTextureFormat.RFloat;
         private const TextureFormat DefaultLowPrecisionTextureFormat = TextureFormat.RGBA32;
-        private const RenderTextureFormat DefaultLowPrecisionRenderTextureFormat = RenderTextureFormat.ARGB32;
-        private const RenderTextureFormat DefaultLowPrecisionMonoRenderTextureFormat = RenderTextureFormat.R8;
+        private const RenderTextureFormat DefaultLowPrecisionRenderTextureFormat = RenderTextureFormat.RGB111110Float;
+        private const RenderTextureFormat DefaultLowPrecisionMonoRenderTextureFormat = RenderTextureFormat.RHalf;
 
         #endregion
 

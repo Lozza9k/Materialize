@@ -243,10 +243,7 @@ namespace Materialize.General
             var extension = pathToFile.Substring(fileIndex + 1, pathToFile.Length - fileIndex - 1);
 
             if (File.Exists(pathToFile)) File.Delete(pathToFile);
-
-            var isHdr = textureToSave.format == TextureFormat.RGBAFloat ||
-                        textureToSave.format == TextureFormat.RGBAHalf;
-
+            
             var renderTexture = TextureManager.Instance.GetTempRenderTexture(textureToSave.width, textureToSave.height);
 
             Graphics.Blit(textureToSave, renderTexture);
@@ -255,7 +252,7 @@ namespace Materialize.General
             textureToSave.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0, false);
             textureToSave.Apply(false);
 
-            if (extension != "exr" || !isHdr) textureToSave = TextureProcessing.ConvertToGama(textureToSave);
+            textureToSave = TextureProcessing.ConvertToGama(textureToSave);
 
             byte[] bytes;
             switch (extension)

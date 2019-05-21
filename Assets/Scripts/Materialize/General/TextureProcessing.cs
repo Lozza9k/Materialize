@@ -88,6 +88,19 @@ namespace Materialize.General
             return converted;
         }
 
+        public static Texture2D ConvertLinear(Texture2D texture)
+        {
+            var compute = TextureManager.Instance.TextureProcessingCompute;
+            var kernel = compute.FindKernel("ConvertToLinear");
+            var renderTexture = TextureManager.Instance.GetTempRenderTexture(texture.width, texture.height);
+            RunKernel(compute, kernel, texture, renderTexture);
+
+            TextureManager.Instance.GetTextureFromRender(renderTexture, out var converted);
+            RenderTexture.ReleaseTemporary(renderTexture);
+
+            return converted;
+        }
+
         private static Texture2D LoadPngBmpJpg(string path)
         {
             var newTexture = new Texture2D(2, 2);
@@ -96,11 +109,10 @@ namespace Materialize.General
             var fileData = File.ReadAllBytes(path);
 
             newTexture.LoadImage(fileData);
-//        newTexture = ConvertToLinear(newTexture);
+            //newTexture = ConvertLinear(newTexture);
 
             return ConvertToStandard(newTexture);
         }
-
 
         private static ProgramEnums.FileFormat GetFormat(string path)
         {
@@ -132,7 +144,6 @@ namespace Materialize.General
                     newTexture = TGALoader.LoadTGA(pathToFile);
                     newTexture = ConvertToStandard(newTexture);
                     break;
-                case ProgramEnums.FileFormat.Exr:
                 case ProgramEnums.FileFormat.Invalid:
                     Logger.Log("Tipo de arquivo invalido " + fileFormat);
                     break;
@@ -145,7 +156,7 @@ namespace Materialize.General
 
         public static Texture2D ConvertToStandard(Texture2D newTexture, bool linear = false)
         {
-            var tempRenderTexture = TextureManager.Instance.GetTempRenderTexture(newTexture.width, newTexture.height);
+            var tempRenderTexture = TextureManager.Instance.GetTempRenderTexture(newTexture.width, newTexture.height, linear);
 
             Graphics.CopyTexture(newTexture, 0, 0, tempRenderTexture, 0, 0);
             TextureManager.Instance.GetTextureFromRender(tempRenderTexture, out var converted);
