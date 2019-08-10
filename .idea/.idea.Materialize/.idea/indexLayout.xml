@@ -3,20 +3,18 @@
   <component name="ContentModelUserStore">
     <attachedFolders />
     <explicitIncludes>
-      <Path>Library/PackageCache/com.unity.burst@1.0.4</Path>
-      <Path>Library/PackageCache/com.unity.collections@0.0.9-preview.19</Path>
-      <Path>Library/PackageCache/com.unity.ext.nunit@1.0.0</Path>
+      <Path>Library/PackageCache/com.unity.ext.nunit@1.0.1</Path>
       <Path>Library/PackageCache/com.unity.ide.rider@1.0.8</Path>
       <Path>Library/PackageCache/com.unity.ide.visualstudio@1.0.11</Path>
       <Path>Library/PackageCache/com.unity.ide.vscode@1.0.7</Path>
-      <Path>Library/PackageCache/com.unity.jobs@0.0.7-preview.12</Path>
-      <Path>Library/PackageCache/com.unity.mathematics@1.0.1</Path>
-      <Path>Library/PackageCache/com.unity.render-pipelines.core@6.7.1</Path>
-      <Path>Library/PackageCache/com.unity.render-pipelines.high-definition@6.7.1-preview</Path>
-      <Path>Library/PackageCache/com.unity.shadergraph@6.7.1</Path>
-      <Path>Library/PackageCache/com.unity.test-framework.performance@1.0.6-preview</Path>
-      <Path>Library/PackageCache/com.unity.test-framework@1.0.13</Path>
+      <Path>Library/PackageCache/com.unity.mathematics@1.1.0</Path>
+      <Path>Library/PackageCache/com.unity.render-pipelines.core@7.0.0</Path>
+      <Path>Library/PackageCache/com.unity.render-pipelines.high-definition-config@7.0.0</Path>
+      <Path>Library/PackageCache/com.unity.render-pipelines.high-definition@7.0.0</Path>
+      <Path>Library/PackageCache/com.unity.shadergraph@7.0.0</Path>
+      <Path>Library/PackageCache/com.unity.test-framework@1.0.18</Path>
       <Path>Library/PackageCache/com.unity.textmeshpro@2.0.1</Path>
+      <Path>Library/PackageCache/com.unity.visualeffectgraph@7.0.0</Path>
       <Path>Packages</Path>
       <Path>ProjectSettings</Path>
     </explicitIncludes>
@@ -27,6 +25,7 @@
       <Path>Build</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
+      <Path>Temp</Path>
       <Path>obj</Path>
     </explicitExcludes>
   </component>

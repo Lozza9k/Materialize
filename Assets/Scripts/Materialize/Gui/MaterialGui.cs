@@ -5,7 +5,7 @@
 using Materialize.General;
 using Materialize.Settings;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using Utility;
 using Logger = Utility.Logger;
 

@@ -5,8 +5,8 @@ using System.Collections;
 using JetBrains.Annotations;
 using Materialize.Gui;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 using Utility;
 using Logger = Utility.Logger;
 

@@ -2,7 +2,7 @@
 
 using Materialize.General;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
+using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 using Utility;
 

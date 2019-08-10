@@ -1,6 +1,8 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 #endregion
@@ -9,31 +11,76 @@ namespace Utility
 {
     public static class GuiHelper
     {
-        public static bool Slider(Rect rect, int value, out int outValue, int minValue, int maxValue)
+        private static readonly Dictionary<string, string> TextFields = new Dictionary<string, string>();
+
+        public static bool Slider(Rect rect, int value, out int outValue, int minValue, int maxValue,
+            [System.Runtime.CompilerServices.CallerMemberName]
+            string memberName = "",
+            [System.Runtime.CompilerServices.CallerFilePath]
+            string sourceFilePath = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]
+            int sourceLineNumber = 0)
         {
-            var res = Slider(rect, null, value, out var outValueFloat, minValue, maxValue);
+            var res = Slider(rect, null, value, out var outValueFloat, minValue, maxValue, memberName, sourceFilePath,
+                sourceLineNumber);
             outValue = outValueFloat;
             return res;
         }
 
-        public static bool Slider(Rect rect, float value, out float outValue, float minValue, float maxValue)
+        public static bool Slider(Rect rect, float value, out float outValue, float minValue, float maxValue,
+            [System.Runtime.CompilerServices.CallerMemberName]
+            string memberName = "",
+            [System.Runtime.CompilerServices.CallerFilePath]
+            string sourceFilePath = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]
+            int sourceLineNumber = 0)
         {
-            var res = Slider(rect, null, value, out var outValue2, minValue, maxValue);
+            var res = Slider(rect, null, value, out var outValue2, minValue, maxValue, memberName, sourceFilePath,
+                sourceLineNumber);
             outValue = outValue2;
             return res;
         }
 
-        public static bool Slider(Rect rect, string title, int value, out int outValue, int minValue, int maxValue)
+        public static bool Slider(Rect rect, string title, int value, out int outValue, int minValue, int maxValue,
+            [System.Runtime.CompilerServices.CallerMemberName]
+            string memberName = "",
+            [System.Runtime.CompilerServices.CallerFilePath]
+            string sourceFilePath = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]
+            int sourceLineNumber = 0)
         {
-            var res = Slider(rect, title, value, out float outValueFloat, minValue, maxValue);
+            var res = Slider(rect, title, value, out float outValueFloat, minValue, maxValue, memberName,
+                sourceFilePath,
+                sourceLineNumber);
 
             outValue = (int) outValueFloat;
             return res;
         }
 
-        public static bool Slider(Rect rect, string title, float value, out float outValue, float minValue,
-            float maxValue)
+        public static bool Slider(Rect rect, string title, int value, string inText, out int outValue,
+            out string outText, int minValue, int maxValue, [System.Runtime.CompilerServices.CallerMemberName]
+            string memberName = "",
+            [System.Runtime.CompilerServices.CallerFilePath]
+            string sourceFilePath = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]
+            int sourceLineNumber = 0)
         {
+            var ret = Slider(rect, title, value, out outValue, minValue, maxValue, memberName, sourceFilePath,
+                sourceLineNumber);
+            outText = outValue.ToString();
+
+            return ret;
+        }
+
+        public static bool Slider(Rect rect, [CanBeNull] string title, float value, out float outValue, float minValue,
+            float maxValue, [System.Runtime.CompilerServices.CallerMemberName]
+            string memberName = "",
+            [System.Runtime.CompilerServices.CallerFilePath]
+            string sourceFilePath = "",
+            [System.Runtime.CompilerServices.CallerLineNumber]
+            int sourceLineNumber = 0)
+        {
+            const float tolerance = 0.001f;
             var offsetX = (int) rect.x;
             var offsetY = (int) rect.y;
             var startValue = value;
@@ -46,34 +93,46 @@ namespace Utility
 
             value = GUI.HorizontalSlider(new Rect(offsetX, offsetY, rect.width - 60, 10), value, minValue, maxValue);
 
-            var handler = Time.time.ToString();
-            GUI.SetNextControlName(handler);
-            var textValue = value.ToString();
-            textValue = GUI.TextField(new Rect(offsetX + rect.width - 50, offsetY - 5, 50, 20), textValue);
-            if (Event.current.type == EventType.KeyDown && Event.current.character == '\n' &&
-                GUI.GetNameOfFocusedControl() == handler)
-            {
-                if (textValue.Contains(".")) textValue = textValue.Replace(".", ",");
+            var handle = memberName + sourceFilePath + sourceLineNumber;
 
-                float.TryParse(textValue, out value);
-                value = Mathf.Clamp(value, minValue, maxValue);
+            GUI.SetNextControlName(handle);
+            string textValue;
+            if (TextFields.ContainsKey(handle))
+            {
+                TextFields.TryGetValue(handle, out textValue);
+            }
+            else
+            {
+                textValue = value.ToString();
+                TextFields.Add(handle, textValue);
             }
 
-            if (Math.Abs(value - startValue) > 0.0001f) isChanged = true;
+            textValue = GUI.TextField(new Rect(offsetX + rect.width - 50, offsetY - 5, 50, 20), textValue);
 
-            outValue = value;
+            if (GUI.GetNameOfFocusedControl().Contains(handle))
+            {
+                if (Event.current.isKey &&
+                    (Event.current.keyCode.Equals(KeyCode.Return) || Event.current.keyCode.Equals(KeyCode.KeypadEnter)))
+                {
+                    if (textValue.Contains(".")) textValue = textValue.Replace(".", ",");
 
-            return isChanged;
-        }
+                    float.TryParse(textValue, out var result);
+                    if (Math.Abs(result - value) > tolerance)
+                    {
+                        value = Mathf.Clamp(result, minValue, maxValue);
+                        textValue = value.ToString();
+                    }
+                }
+            }
+            else
+            {
+                textValue = value.ToString();
+            }
 
-        public static bool VerticalSlider(Rect rect, float value, out float outValue, float minValue, float maxValue,
-            bool doStuff)
-        {
-            var isChanged = false;
 
-            var tempValue = value;
-            value = GUI.VerticalSlider(rect, value, minValue, maxValue);
-            if (Math.Abs(value - tempValue) > 0.0001f || doStuff) isChanged = true;
+            if (TextFields.ContainsKey(handle)) TextFields[handle] = textValue;
+
+            if (Math.Abs(value - startValue) > tolerance) isChanged = true;
 
             outValue = value;
 
@@ -87,6 +146,21 @@ namespace Utility
             var tempValue = value;
             value = GUI.Toggle(rect, value, text);
             if (value != tempValue || doStuff) isChanged = true;
+
+            outValue = value;
+
+            return isChanged;
+        }
+
+
+        public static bool VerticalSlider(Rect rect, float value, out float outValue, float minValue, float maxValue,
+            bool doStuff)
+        {
+            var isChanged = false;
+
+            var tempValue = value;
+            value = GUI.VerticalSlider(rect, value, minValue, maxValue);
+            if (Math.Abs(value - tempValue) > 0.0001f || doStuff) isChanged = true;
 
             outValue = value;
 

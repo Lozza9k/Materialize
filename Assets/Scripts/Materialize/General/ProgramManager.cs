@@ -7,8 +7,8 @@ using Materialize.Gui;
 using Materialize.Settings;
 using StandaloneFileBrowser;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.HDPipeline;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 using Utility;
 using Logger = Utility.Logger;
 

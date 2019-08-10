@@ -106,6 +106,34 @@
             <e p="StandaloneFileBrowserMac.cs" t="Include" />
             <e p="StandaloneFileBrowserWindows.cs" t="Include" />
           </e>
+          <e p="TextMesh Pro" t="Include">
+            <e p="Fonts" t="Include">
+              <e p="LiberationSans - OFL.txt" t="Include" />
+            </e>
+            <e p="Resources" t="Include">
+              <e p="LineBreaking Following Characters.txt" t="Include" />
+              <e p="LineBreaking Leading Characters.txt" t="Include" />
+              <e p="Shaders" t="Include">
+                <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+                <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+                <e p="TMP_Bitmap.shader" t="Include" />
+                <e p="TMP_SDF Overlay.shader" t="Include" />
+                <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+                <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+                <e p="TMP_SDF-Mobile.shader" t="Include" />
+                <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+                <e p="TMP_SDF-Surface.shader" t="Include" />
+                <e p="TMP_SDF.shader" t="Include" />
+                <e p="TMP_Sprite.shader" t="Include" />
+                <e p="TMPro.cginc" t="Include" />
+                <e p="TMPro_Properties.cginc" t="Include" />
+                <e p="TMPro_Surface.cginc" t="Include" />
+              </e>
+            </e>
+            <e p="Sprites" t="Include">
+              <e p="EmojiOne Attribution.txt" t="Include" />
+            </e>
+          </e>
         </e>
         <e p="Scripts" t="Include">
           <e p="Editor" t="Include">
@@ -179,6 +207,52 @@
             <e p="TGALoader.cs" t="Include" />
             <e p="Utility-ASM.asmdef" t="Include" />
           </e>
+        </e>
+        <e p="Shaders" t="Include">
+          <e p="AO_From_Normal_Preview.shader" t="Include" />
+          <e p="Alignment_Shader.shader" t="Include" />
+          <e p="Compute" t="Include">
+            <e p="AlignmentCompute.compute" t="Include" />
+            <e p="AoCompute.compute" t="Include" />
+            <e p="BlurCompute.compute" t="Include" />
+            <e p="EditDiffuseCompute.compute" t="Include" />
+            <e p="HeightCompute.compute" t="Include" />
+            <e p="MaskMapCompute.compute" t="Include" />
+            <e p="MetallicCompute.compute" t="Include" />
+            <e p="NormalCompute.compute" t="Include" />
+            <e p="SampleCompute.compute" t="Include" />
+            <e p="SmoothnessCompute.compute" t="Include" />
+            <e p="TextureProcessingCompute.compute" t="Include" />
+            <e p="TilingCompute.compute" t="Include" />
+          </e>
+          <e p="Edge_From_Normal_Preview.shader" t="Include" />
+          <e p="Edit_Diffuse_Preview.shader" t="Include" />
+          <e p="Height_From_Diffuse_Preview.shader" t="Include" />
+          <e p="Include" t="Include">
+            <e p="Color.hlsl" t="Include" />
+            <e p="Random.hlsl" t="Include" />
+          </e>
+          <e p="Metallic_Preview.shader" t="Include" />
+          <e p="Normal_From_Height_Preview.shader" t="Include" />
+          <e p="Photoshop.cginc" t="Include" />
+          <e p="Resources" t="Include">
+            <e p="Blit_Alignment.shader" t="Include" />
+            <e p="Blit_Edge_From_Normal.shader" t="Include" />
+            <e p="Blit_FlipNormalY.shader" t="Include" />
+            <e p="Blit_Height_From_Diffuse.shader" t="Include" />
+            <e p="Blit_Height_From_Normal.shader" t="Include" />
+            <e p="Blit_MaskMap.shader" t="Include" />
+            <e p="Blit_Metallic.shader" t="Include" />
+            <e p="Blit_Normal_From_Height.shader" t="Include" />
+            <e p="Blit_Property_Comp.shader" t="Include" />
+            <e p="Blit_Sample.shader" t="Include" />
+            <e p="Blit_Seamless_Texture_Maker.shader" t="Include" />
+            <e p="Blit_Shader.shader" t="Include" />
+            <e p="Blit_Smoothness.shader" t="Include" />
+            <e p="Photoshop.cginc" t="Include" />
+          </e>
+          <e p="Sample_Shader.shader" t="Include" />
+          <e p="Smoothness_Preview.shader" t="Include" />
         </e>
         <e p="packages" t="ExcludeRecursive" />
       </e>
