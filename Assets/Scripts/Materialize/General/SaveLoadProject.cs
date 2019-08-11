@@ -366,9 +366,14 @@ namespace Materialize.General
             MessagePanel.ShowMessage($"Loading {pathToFile}");
 
             var newTexture = TextureProcessing.GetTextureFromFile(pathToFile);
+            
+            Debug.Log("Format: " + newTexture.format);
 
             if (newTexture && newTexture.format != TextureManager.Instance.DefaultTextureFormat)
                 newTexture = TextureProcessing.ConvertToStandard(newTexture);
+            
+            Debug.Log("New Format: " + newTexture.format);
+
 
             if (!newTexture)
             {

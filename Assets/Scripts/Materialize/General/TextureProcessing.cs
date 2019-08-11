@@ -109,7 +109,6 @@ namespace Materialize.General
             var fileData = File.ReadAllBytes(path);
 
             newTexture.LoadImage(fileData);
-            //newTexture = ConvertLinear(newTexture);
 
             return ConvertToStandard(newTexture);
         }
@@ -156,9 +155,10 @@ namespace Materialize.General
 
         public static Texture2D ConvertToStandard(Texture2D newTexture, bool linear = false)
         {
-            var tempRenderTexture = TextureManager.Instance.GetTempRenderTexture(newTexture.width, newTexture.height, linear);
+            var tempRenderTexture =
+                TextureManager.Instance.GetTempRenderTexture(newTexture.width, newTexture.height, linear);
 
-            Graphics.CopyTexture(newTexture, 0, 0, tempRenderTexture, 0, 0);
+            Graphics.Blit(newTexture, tempRenderTexture);
             TextureManager.Instance.GetTextureFromRender(tempRenderTexture, out var converted);
             RenderTexture.ReleaseTemporary(tempRenderTexture);
             Object.Destroy(newTexture);

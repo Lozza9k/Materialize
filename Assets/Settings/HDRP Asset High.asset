@@ -151,7 +151,8 @@ MonoBehaviour:
   m_RenderPipelineResources: {fileID: 11400000, guid: 3ce144cff5783da45aa5d4fdc2da14b7,
     type: 2}
   m_RenderPipelineRayTracingResources: {fileID: 0}
-  m_DefaultVolumeProfile: {fileID: 0}
+  m_DefaultVolumeProfile: {fileID: 11400000, guid: c81df4dba188de7b38203f9535bb1bbe,
+    type: 2}
   m_RenderingPathDefaultCameraFrameSettings:
     bitDatas:
       data1: 69458210585374
@@ -190,7 +191,7 @@ MonoBehaviour:
     supportTransparentDepthPrepass: 0
     supportTransparentDepthPostpass: 0
     colorBufferFormat: 74
-    supportedLitShaderMode: 3
+    supportedLitShaderMode: 1
     supportDecals: 0
     msaaSampleCount: 1
     supportMotionVectors: 1
@@ -264,9 +265,9 @@ MonoBehaviour:
       enabled: 0
       maxPercentage: 100
       minPercentage: 50
-      dynResType: 0
+      dynResType: 1
       upsampleFilter: 1
-      forceResolution: 1
+      forceResolution: 0
       forcedPercentage: 80
     lowresTransparentSettings:
       enabled: 1

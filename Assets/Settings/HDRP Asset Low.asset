@@ -190,7 +190,7 @@ MonoBehaviour:
     supportTransparentDepthPrepass: 0
     supportTransparentDepthPostpass: 0
     colorBufferFormat: 74
-    supportedLitShaderMode: 3
+    supportedLitShaderMode: 1
     supportDecals: 0
     msaaSampleCount: 1
     supportMotionVectors: 0
